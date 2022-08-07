@@ -125,14 +125,12 @@ class MyGUI(QMainWindow):
             print("No rainfall today")
         
 
-
         #Evapotranspiration using Penman-Monteith
         et_penman_monteith = pyeto.fao56_penman_monteith(net_rad, mean_temp_in_k, ws, svp, avp, delta_svp, psy, shf=0.0)
         print("The estimated evapotranspiration using Penman-Monteith Equation: ",et_penman_monteith, "mm/day")
         self.ETo = et_penman_monteith
 
         
-
         #Logs
         self.logs.append("Net Radiation: " + str(net_rad) + "MJ m-2 day-1")
         #self.logs.append("Mean Temperature: " + str(mean_temp) + "°Kelvin")
@@ -165,6 +163,16 @@ class MyGUI(QMainWindow):
         current_month_array = current_month-1
         print("Array Month: ",current_month_array)
         print("ET Rad: ",et_radiation_bymonth[current_month_array], "MJ m-2 day-1")
+
+        #Rain amount
+        try:
+            self.rain_1h = weather_data.json()['rain']['1h']
+            print("Rain amount in the past Hour: ", self.rain_1h, "mm")
+            self.rain_3h = weather_data.json()['rain']['3h']
+            print("Rain amount in the past 3 Hours: ", self.rain_3h, "mm")
+        except:
+            print("No rainfall today")
+
 
         #Exapotranspiration Estimation using Hargreaves: pyeto.hargreaves(tmin, tmax, tmean, et_rad)
         et_hargreaves = pyeto.hargreaves(min_temp, max_temp,mean_temp, et_radiation_bymonth[current_month_array])
