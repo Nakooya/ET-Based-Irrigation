@@ -12,6 +12,8 @@ class MyGUI(QMainWindow):
     ETo = 0
     Kc = 0
     ETc = 0
+    rain_1h = 0
+    rain_3h = 0
 
     def __init__(self):
         super(MyGUI, self).__init__()
@@ -112,10 +114,19 @@ class MyGUI(QMainWindow):
         print("Psychrometric Constant: ",psy,"kPa/degC")
 
 
+        #Rain amount
+        self.rain_1h = weather_data.json()['rain']['1h']
+        print("Rain amount in the past Hour: ", self.rain_1h, "mm")
+        #self.rain_3h = weather_data.json()['rain']['3h']
+        #print("Rain amount in the past 3 Hours: ", self.rain_3h, "mm")
+
+
         #Evapotranspiration using Penman-Monteith
         et_penman_monteith = pyeto.fao56_penman_monteith(net_rad, mean_temp_in_k, ws, svp, avp, delta_svp, psy, shf=0.0)
         print("The estimated evapotranspiration using Penman-Monteith Equation: ",et_penman_monteith, "mm/day")
         self.ETo = et_penman_monteith
+
+        
 
         #Logs
         self.logs.append("Net Radiation: " + str(net_rad) + "MJ m-2 day-1")
