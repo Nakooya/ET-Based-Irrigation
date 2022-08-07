@@ -10,8 +10,8 @@ api_key = 'a048f036a050aab5d159597cf0d22e41'
 
 class MyGUI(QMainWindow):
     ETo = 0
-    ETc = 0
     Kc = 0
+    ETc = 0
 
     def __init__(self):
         super(MyGUI, self).__init__()
@@ -25,11 +25,16 @@ class MyGUI(QMainWindow):
         self.Kc_late.toggled.connect(self.calculateCropEvapotranspiration)
         self.getData.clicked.connect(self.calculatePenmanMonteith)
         self.HargreavesButton.clicked.connect(self.calculatePenmanMonteith)
-        text = "asdddddddddd"
+        text = "Initialized Logs..."
         self.logs.setPlainText(text)
-        self.lcdNumber_2.display(1.26)
+        self.lcdNumber_2.display(0)
         self.pushButton.clicked.connect(self.displayET)
+
        
+    def displayET(self):
+        print("The ETo is", self.ETo)
+        print("The Kc is", self.Kc)
+        print("The ETc is", self.ETo * self.Kc)
        
     def calculatePenmanMonteith(self):
         #Get month value for extraterrestrial radiation
@@ -121,8 +126,7 @@ class MyGUI(QMainWindow):
         self.logs.append("Delta Saturated Vapour Pressure: " + str(avp))
         self.logs.append("Psychrometric constant: " + str(psy))
         
-    def displayET(self):
-        print("The Evapotranspiration is", self.ETo)
+    
 
     def calculateHargreaves(self):
         #Open Weather Map API Call
@@ -156,9 +160,9 @@ class MyGUI(QMainWindow):
         if self.Kc_init.isChecked():
             self.Kc = 0.3
         elif self.Kc_mid.isChecked():
-            self.Kc = 1
+            self.Kc = 1.15
         elif self.Kc_late.isChecked():
-            self.Kc = 0.3
+            self.Kc = 0.4
         self.lcdNumber_2.display(self.Kc)
 
        

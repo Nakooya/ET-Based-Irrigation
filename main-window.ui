@@ -170,7 +170,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Mid Season, 1</string>
+      <string>Mid Season, 1.15</string>
      </property>
     </widget>
     <widget class="QRadioButton" name="Kc_late">
@@ -189,7 +189,7 @@
     <widget class="QLCDNumber" name="lcdNumber_2">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>50</x>
        <y>100</y>
        <width>64</width>
        <height>23</height>
@@ -203,6 +203,19 @@
      </property>
      <property name="frameShadow">
       <enum>QFrame::Plain</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>100</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Kc: </string>
      </property>
     </widget>
    </widget>
