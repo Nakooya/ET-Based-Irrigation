@@ -115,10 +115,14 @@ class MyGUI(QMainWindow):
 
 
         #Rain amount
-        self.rain_1h = weather_data.json()['rain']['1h']
-        print("Rain amount in the past Hour: ", self.rain_1h, "mm")
-        #self.rain_3h = weather_data.json()['rain']['3h']
-        #print("Rain amount in the past 3 Hours: ", self.rain_3h, "mm")
+        try:
+            self.rain_1h = weather_data.json()['rain']['1h']
+            print("Rain amount in the past Hour: ", self.rain_1h, "mm")
+            self.rain_3h = weather_data.json()['rain']['3h']
+            print("Rain amount in the past 3 Hours: ", self.rain_3h, "mm")
+        except:
+            print("No rainfall today")
+        
 
 
         #Evapotranspiration using Penman-Monteith
