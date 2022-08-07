@@ -9,6 +9,9 @@ api_key = 'a048f036a050aab5d159597cf0d22e41'
 
 
 class MyGUI(QMainWindow):
+    ETo = 0
+    ETc = 0
+    Kc = 0
 
     def __init__(self):
         super(MyGUI, self).__init__()
@@ -17,10 +20,15 @@ class MyGUI(QMainWindow):
 
         self.longitudeTB.setText("121.1609810803121")
         self.latitudeTB.setText("14.524589860522429")
+        self.Kc_init.toggled.connect(self.calculateCropEvapotranspiration)
+        self.Kc_mid.toggled.connect(self.calculateCropEvapotranspiration)
+        self.Kc_late.toggled.connect(self.calculateCropEvapotranspiration)
         self.getData.clicked.connect(self.calculatePenmanMonteith)
-        self.HargreavesButton.clicked.connect(self.calculateHargreaves)
+        self.HargreavesButton.clicked.connect(self.calculatePenmanMonteith)
         text = "asdddddddddd"
         self.logs.setPlainText(text)
+        self.lcdNumber_2.display(1.26)
+        self.pushButton.clicked.connect(self.displayET)
        
        
     def calculatePenmanMonteith(self):
@@ -33,7 +41,7 @@ class MyGUI(QMainWindow):
         
         #Weather Data
         weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={14.524589860522429}&lon={121.1609810803121}&appid={api_key}&units=metric")
-        print(weather_data.status_code)
+        print("API CODE: ",weather_data.status_code)
         areaName = weather_data.json()['name']
         print("Area Name: " , areaName)
         temp = weather_data.json()['main']['temp']
@@ -49,7 +57,9 @@ class MyGUI(QMainWindow):
         ws = weather_data.json()['wind']['speed']
         print("Wind Speed: ",ws,"m/s")
         #Evapotranspiration Inputs
-        #--------------------------------------------------------------------------------------------------------------------------
+        #-------------------------#
+
+
         #Delta SVP
         min_temp = weather_data.json()['main']['temp_min']
         min_temp_in_k = pyeto.celsius2kelvin(min_temp)
@@ -100,7 +110,7 @@ class MyGUI(QMainWindow):
         #Evapotranspiration using Penman-Monteith
         et_penman_monteith = pyeto.fao56_penman_monteith(net_rad, mean_temp_in_k, ws, svp, avp, delta_svp, psy, shf=0.0)
         print("The estimated evapotranspiration using Penman-Monteith Equation: ",et_penman_monteith, "mm/day")
-
+        self.ETo = et_penman_monteith
 
         #Logs
         self.logs.append("Net Radiation: " + str(net_rad) + "MJ m-2 day-1")
@@ -111,15 +121,13 @@ class MyGUI(QMainWindow):
         self.logs.append("Delta Saturated Vapour Pressure: " + str(avp))
         self.logs.append("Psychrometric constant: " + str(psy))
         
-        
+    def displayET(self):
+        print("The Evapotranspiration is", self.ETo)
 
-
-
-     
     def calculateHargreaves(self):
         #Open Weather Map API Call
         weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={14.524589860522429}&lon={121.1609810803121}&appid={api_key}&units=metric")
-        print(weather_data.status_code)
+        print("API CODE: ",weather_data.status_code)
 
         #Philippines Extraterrestrial Radiation per month in array
         et_radiation_bymonth = [29.9, 33.1, 36.1, 38.1, 38.4, 38.1, 38.1, 38, 36.7, 33.9, 30.6, 28.9]
@@ -139,21 +147,23 @@ class MyGUI(QMainWindow):
         print("ET Rad: ",et_radiation_bymonth[current_month_array], "MJ m-2 day-1")
 
         #Exapotranspiration Estimation using Hargreaves: pyeto.hargreaves(tmin, tmax, tmean, et_rad)
-        hargreaves_value = pyeto.hargreaves(min_temp, max_temp,mean_temp, et_radiation_bymonth[current_month_array])
-        print("The estimated evapotranspiration using Hargreaves Equation: ", hargreaves_value,"mm/day")
+        et_hargreaves = pyeto.hargreaves(min_temp, max_temp,mean_temp, et_radiation_bymonth[current_month_array])
+        evapotranspiration = et_hargreaves
+        print("The estimated evapotranspiration using Hargreaves Equation: ", et_hargreaves,"mm/day")
+        
 
     def calculateCropEvapotranspiration(self):
         if self.Kc_init.isChecked():
-            Kc = 0.3
+            self.Kc = 0.3
         elif self.Kc_mid.isChecked():
-            Kc = 1
+            self.Kc = 1
         elif self.Kc_late.isChecked():
-            Kc = 0.3
-        ETc = ETo * Kc
-        
+            self.Kc = 0.3
+        self.lcdNumber_2.display(self.Kc)
 
-    
-        
+       
+      
+
 def main():
    app = QApplication([])
    window = MyGUI()

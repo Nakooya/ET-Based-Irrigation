@@ -186,6 +186,25 @@
       <string>Late Season, 0.4</string>
      </property>
     </widget>
+    <widget class="QLCDNumber" name="lcdNumber_2">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>100</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
@@ -208,6 +227,9 @@
        <height>23</height>
       </rect>
      </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
     </widget>
     <widget class="QLabel" name="label">
      <property name="geometry">
@@ -222,6 +244,19 @@
       <string>RAW Value:</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>160</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
