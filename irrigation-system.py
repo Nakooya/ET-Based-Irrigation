@@ -9,6 +9,7 @@ api_key = 'a048f036a050aab5d159597cf0d22e41'
 
 
 class MyGUI(QMainWindow):
+    
     ETo = 0
     Kc = 0
     ETc = 0
@@ -26,7 +27,7 @@ class MyGUI(QMainWindow):
         self.Kc_mid.toggled.connect(self.calculateCropEvapotranspiration)
         self.Kc_late.toggled.connect(self.calculateCropEvapotranspiration)
         self.getData.clicked.connect(self.calculatePenmanMonteith)
-        self.HargreavesButton.clicked.connect(self.calculatePenmanMonteith)
+        self.HargreavesButton.clicked.connect(self.calculateHargreaves)
         text = "Initialized Logs..."
         self.logs.setPlainText(text)
         self.lcdNumber_2.display(0)
@@ -167,7 +168,7 @@ class MyGUI(QMainWindow):
 
         #Exapotranspiration Estimation using Hargreaves: pyeto.hargreaves(tmin, tmax, tmean, et_rad)
         et_hargreaves = pyeto.hargreaves(min_temp, max_temp,mean_temp, et_radiation_bymonth[current_month_array])
-        evapotranspiration = et_hargreaves
+        self.ETo = et_hargreaves
         print("The estimated evapotranspiration using Hargreaves Equation: ", et_hargreaves,"mm/day")
         
 
