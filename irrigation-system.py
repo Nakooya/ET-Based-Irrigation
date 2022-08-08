@@ -119,8 +119,7 @@ class MyGUI(QMainWindow):
         try:
             self.rain_1h = weather_data.json()['rain']['1h']
             print("Rain amount in the past Hour: ", self.rain_1h, "mm")
-            self.rain_3h = weather_data.json()['rain']['3h']
-            print("Rain amount in the past 3 Hours: ", self.rain_3h, "mm")
+            
         except:
             print("No rainfall today")
         
@@ -168,8 +167,6 @@ class MyGUI(QMainWindow):
         try:
             self.rain_1h = weather_data.json()['rain']['1h']
             print("Rain amount in the past Hour: ", self.rain_1h, "mm")
-            self.rain_3h = weather_data.json()['rain']['3h']
-            print("Rain amount in the past 3 Hours: ", self.rain_3h, "mm")
         except:
             print("No rainfall today")
 
@@ -189,8 +186,6 @@ class MyGUI(QMainWindow):
             self.Kc = 0.4
         self.lcdNumber_2.display(self.Kc)
 
-       
-      
 
 def main():
    app = QApplication([])
