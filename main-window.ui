@@ -6,91 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>592</width>
-    <height>443</height>
+    <width>622</width>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Penman-Monteith Irrigation System</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGroupBox" name="groupBox">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>30</y>
-      <width>191</width>
-      <height>131</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Penman-Monteith Equation</string>
-    </property>
-    <widget class="QLineEdit" name="latitudeTB">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>60</y>
-       <width>113</width>
-       <height>20</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="longitude_label">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>51</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Longitude:</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="latitude_label">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>60</y>
-       <width>47</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Latitude:</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="longitudeTB">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>30</y>
-       <width>113</width>
-       <height>20</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="getData">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>90</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Calculate</string>
-     </property>
-    </widget>
-   </widget>
    <widget class="QLabel" name="logsLabel">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>170</y>
+      <x>30</x>
+      <y>230</y>
       <width>47</width>
       <height>13</height>
      </rect>
@@ -99,38 +27,12 @@
      <string>Logs</string>
     </property>
    </widget>
-   <widget class="QGroupBox" name="groupBox_2">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>30</y>
-      <width>171</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Hargreaves Equation</string>
-    </property>
-    <widget class="QPushButton" name="HargreavesButton">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>20</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Calculate</string>
-     </property>
-    </widget>
-   </widget>
    <widget class="QTextBrowser" name="logs">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>190</y>
-      <width>551</width>
+      <y>260</y>
+      <width>381</width>
       <height>192</height>
      </rect>
     </property>
@@ -138,8 +40,8 @@
    <widget class="QGroupBox" name="cropCoefficientGroup">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>30</y>
+      <x>230</x>
+      <y>20</y>
       <width>171</width>
       <height>131</height>
      </rect>
@@ -222,28 +124,15 @@
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>90</y>
-      <width>171</width>
-      <height>71</height>
+      <x>420</x>
+      <y>30</y>
+      <width>181</width>
+      <height>121</height>
      </rect>
     </property>
     <property name="title">
      <string>Readily Available Water (RAW)</string>
     </property>
-    <widget class="QLCDNumber" name="lcdNumber">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>30</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-    </widget>
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
@@ -254,21 +143,132 @@
       </rect>
      </property>
      <property name="text">
-      <string>RAW Value:</string>
+      <string>Soil Depth:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="soilDepth">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>30</y>
+       <width>51</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>70</y>
+       <width>47</width>
+       <height>13</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Soil Type:</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_3">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>70</y>
+       <width>82</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Loam (0.69)</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>30</y>
+       <width>21</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>cm</string>
      </property>
     </widget>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>160</y>
-      <width>75</width>
-      <height>23</height>
+      <x>30</x>
+      <y>30</y>
+      <width>181</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>ET Equation</string>
+    </property>
+    <widget class="QRadioButton" name="pmRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>151</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Penman-Monteith</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="hargreavesRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>111</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hargreaves</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="computeET">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>330</y>
+      <width>171</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Compute</string>
+    </property>
+   </widget>
+   <widget class="QTimeEdit" name="timeEdit">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>180</y>
+      <width>118</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>190</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Set Time:</string>
     </property>
    </widget>
   </widget>
@@ -277,7 +277,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>592</width>
+     <width>622</width>
      <height>21</height>
     </rect>
    </property>
