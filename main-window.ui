@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>622</width>
-    <height>504</height>
+    <width>884</width>
+    <height>728</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,18 +32,18 @@
      <rect>
       <x>20</x>
       <y>260</y>
-      <width>381</width>
-      <height>192</height>
+      <width>601</width>
+      <height>401</height>
      </rect>
     </property>
    </widget>
    <widget class="QGroupBox" name="cropCoefficientGroup">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>240</x>
       <y>20</y>
-      <width>171</width>
-      <height>131</height>
+      <width>231</width>
+      <height>141</height>
      </rect>
     </property>
     <property name="title">
@@ -54,7 +54,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>82</width>
+       <width>141</width>
        <height>17</height>
       </rect>
      </property>
@@ -67,7 +67,7 @@
       <rect>
        <x>10</x>
        <y>50</y>
-       <width>101</width>
+       <width>141</width>
        <height>17</height>
       </rect>
      </property>
@@ -80,7 +80,7 @@
       <rect>
        <x>10</x>
        <y>70</y>
-       <width>101</width>
+       <width>141</width>
        <height>17</height>
       </rect>
      </property>
@@ -93,8 +93,8 @@
       <rect>
        <x>50</x>
        <y>100</y>
-       <width>64</width>
-       <height>23</height>
+       <width>81</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="font">
@@ -124,10 +124,10 @@
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>30</y>
+      <x>520</x>
+      <y>20</y>
       <width>181</width>
-      <height>121</height>
+      <height>141</height>
      </rect>
     </property>
     <property name="title">
@@ -137,7 +137,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>30</y>
+       <y>40</y>
        <width>61</width>
        <height>16</height>
       </rect>
@@ -150,9 +150,9 @@
      <property name="geometry">
       <rect>
        <x>70</x>
-       <y>30</y>
-       <width>51</width>
-       <height>20</height>
+       <y>40</y>
+       <width>71</width>
+       <height>21</height>
       </rect>
      </property>
     </widget>
@@ -160,7 +160,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>70</y>
+       <y>100</y>
        <width>47</width>
        <height>13</height>
       </rect>
@@ -173,9 +173,9 @@
      <property name="geometry">
       <rect>
        <x>70</x>
-       <y>70</y>
-       <width>82</width>
-       <height>17</height>
+       <y>90</y>
+       <width>101</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
@@ -185,8 +185,8 @@
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>130</x>
-       <y>30</y>
+       <x>150</x>
+       <y>40</y>
        <width>21</width>
        <height>16</height>
       </rect>
@@ -202,7 +202,7 @@
       <x>30</x>
       <y>30</y>
       <width>181</width>
-      <height>121</height>
+      <height>131</height>
      </rect>
     </property>
     <property name="title">
@@ -213,8 +213,8 @@
       <rect>
        <x>20</x>
        <y>20</y>
-       <width>151</width>
-       <height>21</height>
+       <width>131</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -225,9 +225,9 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>50</y>
-       <width>111</width>
-       <height>16</height>
+       <y>70</y>
+       <width>131</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
@@ -238,8 +238,8 @@
    <widget class="QPushButton" name="computeET">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>330</y>
+      <x>680</x>
+      <y>430</y>
       <width>171</width>
       <height>51</height>
      </rect>
@@ -251,17 +251,17 @@
    <widget class="QTimeEdit" name="timeEdit">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>380</x>
       <y>180</y>
       <width>118</width>
-      <height>22</height>
+      <height>31</height>
      </rect>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>260</x>
+      <x>330</x>
       <y>190</y>
       <width>47</width>
       <height>13</height>
@@ -277,7 +277,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>622</width>
+     <width>884</width>
      <height>21</height>
     </rect>
    </property>
