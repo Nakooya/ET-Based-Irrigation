@@ -1,3 +1,4 @@
+from winreg import EnableReflectionKey
 import requests,pyeto,json
 import calendar
 from datetime import date
@@ -9,29 +10,27 @@ api_key = 'a048f036a050aab5d159597cf0d22e41'
 
 
 class MyGUI(QMainWindow):
-    
     ETo = 0
     Kc = 0
     ETc = 0
     rain_1h = 0
-    rain_3h = 0
+    RAW = 0
+    ETcR = 0
+    CumETcR = 0
+
 
     def __init__(self):
         super(MyGUI, self).__init__()
         uic.loadUi("main-window.ui", self)
         self.show()
 
-        self.longitudeTB.setText("121.1609810803121")
-        self.latitudeTB.setText("14.524589860522429")
         self.Kc_init.toggled.connect(self.calculateCropEvapotranspiration)
         self.Kc_mid.toggled.connect(self.calculateCropEvapotranspiration)
         self.Kc_late.toggled.connect(self.calculateCropEvapotranspiration)
-        self.getData.clicked.connect(self.calculatePenmanMonteith)
-        self.HargreavesButton.clicked.connect(self.calculateHargreaves)
+        self.computeET.clicked.connect(self.calculateET)
         text = "Initialized Logs..."
         self.logs.setPlainText(text)
         self.lcdNumber_2.display(0)
-        self.pushButton.clicked.connect(self.displayET)
 
        
     def displayET(self):
@@ -116,13 +115,14 @@ class MyGUI(QMainWindow):
 
 
         #Rain amount
-        try:
+        try: 
             self.rain_1h = weather_data.json()['rain']['1h']
             print("Rain amount in the past Hour: ", self.rain_1h, "mm")
-            
+        #self.rain_3h = weather_data.json()['rain']['3h']
+        #print("Rain amount in the past 3 Hours: ", self.rain_3h, "mm")
         except:
-            print("No rainfall today")
-        
+            print("No rainfall")
+
 
         #Evapotranspiration using Penman-Monteith
         et_penman_monteith = pyeto.fao56_penman_monteith(net_rad, mean_temp_in_k, ws, svp, avp, delta_svp, psy, shf=0.0)
@@ -130,6 +130,7 @@ class MyGUI(QMainWindow):
         self.ETo = et_penman_monteith
 
         
+
         #Logs
         self.logs.append("Net Radiation: " + str(net_rad) + "MJ m-2 day-1")
         #self.logs.append("Mean Temperature: " + str(mean_temp) + "°Kelvin")
@@ -163,18 +164,11 @@ class MyGUI(QMainWindow):
         print("Array Month: ",current_month_array)
         print("ET Rad: ",et_radiation_bymonth[current_month_array], "MJ m-2 day-1")
 
-        #Rain amount
-        try:
-            self.rain_1h = weather_data.json()['rain']['1h']
-            print("Rain amount in the past Hour: ", self.rain_1h, "mm")
-        except:
-            print("No rainfall today")
-
-
         #Exapotranspiration Estimation using Hargreaves: pyeto.hargreaves(tmin, tmax, tmean, et_rad)
         et_hargreaves = pyeto.hargreaves(min_temp, max_temp,mean_temp, et_radiation_bymonth[current_month_array])
-        self.ETo = et_hargreaves
+        evapotranspiration = et_hargreaves
         print("The estimated evapotranspiration using Hargreaves Equation: ", et_hargreaves,"mm/day")
+        self.ETo = evapotranspiration
         
 
     def calculateCropEvapotranspiration(self):
@@ -186,6 +180,24 @@ class MyGUI(QMainWindow):
             self.Kc = 0.4
         self.lcdNumber_2.display(self.Kc)
 
+    def calculateET (self):
+        if self.pmRadioButton.isChecked():
+            self.calculatePenmanMonteith()
+        elif self.hargreavesRadioButton.isChecked():
+            self.calculateHargreaves()
+
+        print("The ETo is", self.ETo)
+        print("The Kc is", self.Kc)
+        self.ETc = self.ETo * self.Kc
+        print("The ETc is", self.ETc)
+        self.ETcR = self.ETc - self.rain_1h
+        print("ETC-R is: ",self.ETcR)
+        self.CumETcR += self.ETcR
+        print("Cumulative ETc-R is: ", self.CumETcR)
+        RAW = float(self.soilDepth.text()) * 0.69
+        print("RAW: ", RAW, "mm" )
+       
+      
 
 def main():
    app = QApplication([])
