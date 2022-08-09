@@ -133,12 +133,13 @@ class MyGUI(QMainWindow):
 
         #Logs
         self.logs.append("Net Radiation: " + str(net_rad) + "MJ m-2 day-1")
-        #self.logs.append("Mean Temperature: " + str(mean_temp) + "°Kelvin")
+        self.logs.append("Mean Temperature: " + str(mean_temp) + "°Kelvin")
         self.logs.append("Wind Speed: " + str(ws) + "m/s")
         self.logs.append("Saturated Vapour Pressure: " + str(svp) + "kPa")
         self.logs.append("Actual Vapour Pressure: " + str(avp) + "kPa")
         self.logs.append("Delta Saturated Vapour Pressure: " + str(avp))
         self.logs.append("Psychrometric constant: " + str(psy))
+        self.logs.append("Evapotranspiration: " + str(self.ETo) + "mm/day")
         
     
 
@@ -169,6 +170,17 @@ class MyGUI(QMainWindow):
         evapotranspiration = et_hargreaves
         print("The estimated evapotranspiration using Hargreaves Equation: ", et_hargreaves,"mm/day")
         self.ETo = evapotranspiration
+
+        #logs
+        self.logs.append("Minimum Temperature: " + str(min_temp))
+        self.logs.append("Maximum Temperature: " + str(max_temp))
+        self.logs.append("Mean Temperature: " + str(mean_temp))
+        self.logs.append("Extraterrestrial Radiation " + str(et_radiation_bymonth[current_month_array]))
+        self.logs.append("Estimated Evapotranspiration using Hargreaves Equation: " + str(self.ETo) + "mm/day")
+
+
+        
+        
         
 
     def calculateCropEvapotranspiration(self):
@@ -180,11 +192,13 @@ class MyGUI(QMainWindow):
             self.Kc = 0.4
         self.lcdNumber_2.display(self.Kc)
 
+
     def calculateET (self):
         if self.pmRadioButton.isChecked():
             self.calculatePenmanMonteith()
         elif self.hargreavesRadioButton.isChecked():
             self.calculateHargreaves()
+
 
         print("The ETo is", self.ETo)
         print("The Kc is", self.Kc)
