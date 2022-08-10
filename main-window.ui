@@ -40,7 +40,7 @@
    <widget class="QGroupBox" name="cropCoefficientGroup">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>310</x>
       <y>20</y>
       <width>231</width>
       <height>141</height>
@@ -54,7 +54,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>141</width>
+       <width>221</width>
        <height>17</height>
       </rect>
      </property>
@@ -67,7 +67,7 @@
       <rect>
        <x>10</x>
        <y>50</y>
-       <width>141</width>
+       <width>221</width>
        <height>17</height>
       </rect>
      </property>
@@ -80,7 +80,7 @@
       <rect>
        <x>10</x>
        <y>70</y>
-       <width>141</width>
+       <width>221</width>
        <height>17</height>
       </rect>
      </property>
@@ -124,9 +124,9 @@
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>580</x>
       <y>20</y>
-      <width>181</width>
+      <width>251</width>
       <height>141</height>
      </rect>
     </property>
@@ -138,7 +138,7 @@
       <rect>
        <x>10</x>
        <y>40</y>
-       <width>61</width>
+       <width>91</width>
        <height>16</height>
       </rect>
      </property>
@@ -149,7 +149,7 @@
     <widget class="QLineEdit" name="soilDepth">
      <property name="geometry">
       <rect>
-       <x>70</x>
+       <x>80</x>
        <y>40</y>
        <width>71</width>
        <height>21</height>
@@ -174,7 +174,7 @@
       <rect>
        <x>70</x>
        <y>90</y>
-       <width>101</width>
+       <width>181</width>
        <height>31</height>
       </rect>
      </property>
@@ -185,7 +185,7 @@
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>150</x>
+       <x>160</x>
        <y>40</y>
        <width>21</width>
        <height>16</height>
@@ -201,7 +201,7 @@
      <rect>
       <x>30</x>
       <y>30</y>
-      <width>181</width>
+      <width>251</width>
       <height>131</height>
      </rect>
     </property>
@@ -213,7 +213,7 @@
       <rect>
        <x>20</x>
        <y>20</y>
-       <width>131</width>
+       <width>221</width>
        <height>41</height>
       </rect>
      </property>
@@ -263,8 +263,8 @@
      <rect>
       <x>330</x>
       <y>190</y>
-      <width>47</width>
-      <height>13</height>
+      <width>111</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
