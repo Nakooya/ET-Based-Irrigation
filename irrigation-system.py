@@ -23,7 +23,6 @@ class MyGUI(QMainWindow):
     current_time_H = int(time.strftime("%H", t))
     current_time_M = int(time.strftime("%M", t))
     
-
     def __init__(self):
         super(MyGUI, self).__init__()
         uic.loadUi("main-window.ui", self)
@@ -228,13 +227,21 @@ class MyGUI(QMainWindow):
         print("Cumulative ETc-R is: ", self.CumETcR)
         RAW = float(self.soilDepth.text()) * 0.69
         print("RAW: ", RAW, "mm" )
-       
-      
+    
+    def tick(self):
+        starttime = time.time()
+        while True:
+            print("tick")
+            time.sleep(60.0 - ((time.time() - starttime) % 60.0))
+    
 
 def main():
    app = QApplication([])
    window = MyGUI()
    app.exec_()
+   window.tick()
+
 
 if __name__ == '__main__':
     main()
+
