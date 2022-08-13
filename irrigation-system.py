@@ -1,6 +1,8 @@
+from multiprocessing import current_process
 from winreg import EnableReflectionKey
 import requests,pyeto,json
 import calendar
+import time
 from datetime import date
 from datetime import datetime
 from PyQt5.QtWidgets import *
@@ -17,7 +19,10 @@ class MyGUI(QMainWindow):
     RAW = 0
     ETcR = 0
     CumETcR = 0
-
+    t = time.localtime()
+    current_time_H = int(time.strftime("%H", t))
+    current_time_M = int(time.strftime("%M", t))
+    
 
     def __init__(self):
         super(MyGUI, self).__init__()
@@ -31,7 +36,20 @@ class MyGUI(QMainWindow):
         text = "Initialized Logs..."
         self.logs.setPlainText(text)
         self.lcdNumber_2.display(0)
+        self.pushButton.clicked.connect(self.getTime)
 
+        
+    def getTime(self):
+        TE_time_H = int(self.timeEdit.time().hour())
+        TE_time_M = int(self.timeEdit.time().minute())
+        print("Time Edit Hour: ", TE_time_H)
+        print("Time Edit Min: ", TE_time_M)
+        print("Current Hour: ",self.current_time_H)
+        print("Current Min: ", self.current_time_M)
+        if TE_time_H == self.current_time_H and TE_time_M == self.current_time_M:
+            print("PROCEED!!")
+        
+        
        
     def displayET(self):
         print("The ETo is", self.ETo)

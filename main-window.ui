@@ -271,6 +271,19 @@
      <string>Set Time:</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>250</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
