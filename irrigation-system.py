@@ -3,6 +3,7 @@ from winreg import EnableReflectionKey
 import requests,pyeto,json
 import calendar
 import time
+import schedule
 from datetime import date
 from datetime import datetime
 from PyQt5.QtWidgets import *
@@ -36,7 +37,12 @@ class MyGUI(QMainWindow):
         self.logs.setPlainText(text)
         self.lcdNumber_2.display(0)
         self.pushButton.clicked.connect(self.getTime)
+        self.writeSomething.clicked.connect(self.writeOne)
 
+    def writeOne(self):
+        with open('readme.txt', 'w') as f:
+            f.write('readme')
+            f.write('Hello')
         
     def getTime(self):
         TE_time_H = int(self.timeEdit.time().hour())
@@ -47,9 +53,7 @@ class MyGUI(QMainWindow):
         print("Current Min: ", self.current_time_M)
         if TE_time_H == self.current_time_H and TE_time_M == self.current_time_M:
             print("PROCEED!!")
-        
-        
-       
+           
     def displayET(self):
         print("The ETo is", self.ETo)
         print("The Kc is", self.Kc)
@@ -232,6 +236,7 @@ class MyGUI(QMainWindow):
         starttime = time.time()
         while True:
             print("tick")
+            self.logs.append("tick")
             time.sleep(60.0 - ((time.time() - starttime) % 60.0))
     
 
@@ -239,7 +244,7 @@ def main():
    app = QApplication([])
    window = MyGUI()
    app.exec_()
-   window.tick()
+ 
 
 
 if __name__ == '__main__':

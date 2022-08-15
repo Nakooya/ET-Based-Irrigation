@@ -281,7 +281,20 @@
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>get Time</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="writeSomething">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>300</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Write</string>
     </property>
    </widget>
   </widget>
