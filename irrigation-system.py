@@ -1,9 +1,16 @@
+"""
+APScheduler Documentation: https://apscheduler.readthedocs.io/en/3.x/userguide.html#basic-concepts
+Pyeto Github: https://github.com/woodcrafty/PyETo
+Pyeto Documentation: https://pyeto.readthedocs.io/en/latest/
+Note: pip install pyeto not working
+"""
+
 from multiprocessing import current_process
 from winreg import EnableReflectionKey
-import requests,pyeto,json
-import calendar
+import requests,pyeto,json,calendar
 import time
 import schedule
+from apscheduler.schedulers.qt import QtScheduler
 from datetime import date
 from datetime import datetime
 from PyQt5.QtWidgets import *
@@ -13,6 +20,7 @@ api_key = 'a048f036a050aab5d159597cf0d22e41'
 
 
 class MyGUI(QMainWindow):
+
     ETo = 0
     Kc = 0
     ETc = 0
@@ -38,6 +46,12 @@ class MyGUI(QMainWindow):
         self.lcdNumber_2.display(0)
         self.pushButton.clicked.connect(self.getTime)
         self.writeSomething.clicked.connect(self.writeOne)
+        def printing():
+            print("HELLO")
+        scheduler = QtScheduler()
+        scheduler.add_job(printing,"interval", seconds = 2)
+        scheduler.start()
+   
 
     def writeOne(self):
         with open('readme.txt', 'w') as f:
@@ -150,7 +164,6 @@ class MyGUI(QMainWindow):
         print("The estimated evapotranspiration using Penman-Monteith Equation: ",et_penman_monteith, "mm/day")
         self.ETo = et_penman_monteith
 
-        
 
         #Logs
         self.logs.append("Net Radiation: " + str(net_rad) + "MJ m-2 day-1")
@@ -200,10 +213,6 @@ class MyGUI(QMainWindow):
         self.logs.append("Estimated Evapotranspiration using Hargreaves Equation: " + str(self.ETo) + "mm/day")
 
 
-        
-        
-        
-
     def calculateCropEvapotranspiration(self):
         if self.Kc_init.isChecked():
             self.Kc = 0.3
@@ -232,21 +241,28 @@ class MyGUI(QMainWindow):
         RAW = float(self.soilDepth.text()) * 0.69
         print("RAW: ", RAW, "mm" )
     
-    def tick(self):
+    """
+     def tick(self):
         starttime = time.time()
         while True:
             print("tick")
             self.logs.append("tick")
             time.sleep(60.0 - ((time.time() - starttime) % 60.0))
+    """
+    
     
 
 def main():
    app = QApplication([])
    window = MyGUI()
    app.exec_()
- 
-
+   
 
 if __name__ == '__main__':
     main()
+    
+    
+    
+        
+
 
