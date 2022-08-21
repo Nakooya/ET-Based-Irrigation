@@ -26,7 +26,7 @@ schedule.every(1).minutes.do(geeks)
 schedule.every().hour.do(geeks)
 
 # Every day at 12am or 00:00 time bedtime() is called.
-schedule.every().day.at("00:00").do(bedtime)
+schedule.every().day.at("14:09").do(bedtime)
 
 # After every 5 to 10mins in between run work()
 schedule.every(5).to(10).minutes.do(work)
