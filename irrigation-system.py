@@ -1,5 +1,8 @@
 """
+                                                RESOURCES
+Github Remote Repository: https://github.com/Nakooya/ET-Based-Irrigation/tree/master
 APScheduler Documentation: https://apscheduler.readthedocs.io/en/3.x/userguide.html#basic-concepts
+QtScheduler Examples: https://python.hotexamples.com/examples/apscheduler.schedulers.qt/QtScheduler/-/python-qtscheduler-class-examples.html
 Pyeto Github: https://github.com/woodcrafty/PyETo
 Pyeto Documentation: https://pyeto.readthedocs.io/en/latest/
 Note: pip install pyeto not working
@@ -10,6 +13,7 @@ from winreg import EnableReflectionKey
 import requests,pyeto,json,calendar
 import time
 import schedule
+import gpiozero
 from apscheduler.schedulers.qt import QtScheduler
 from datetime import date
 from datetime import datetime
@@ -44,13 +48,14 @@ class MyGUI(QMainWindow):
         text = "Initialized Logs..."
         self.logs.setPlainText(text)
         self.lcdNumber_2.display(0)
-        self.pushButton.clicked.connect(self.getTime)
+        self.schedButton.clicked.connect(self.setSchedule)
         self.writeSomething.clicked.connect(self.writeOne)
+        #test for scheduling
         def printing():
             print("HELLO")
         scheduler = QtScheduler()
         scheduler.add_job(printing,"interval", seconds = 2)
-        scheduler.start()
+        #scheduler.start()
    
 
     def writeOne(self):
@@ -58,15 +63,16 @@ class MyGUI(QMainWindow):
             f.write('readme')
             f.write('Hello')
         
-    def getTime(self):
+    def setSchedule(self):
         TE_time_H = int(self.timeEdit.time().hour())
         TE_time_M = int(self.timeEdit.time().minute())
         print("Time Edit Hour: ", TE_time_H)
         print("Time Edit Min: ", TE_time_M)
-        print("Current Hour: ",self.current_time_H)
-        print("Current Min: ", self.current_time_M)
-        if TE_time_H == self.current_time_H and TE_time_M == self.current_time_M:
-            print("PROCEED!!")
+        #print("Current Hour: ",self.current_time_H)
+        #print("Current Min: ", self.current_time_M)
+        scheduler = QtScheduler()
+        scheduler.add_job(self.calculateET, 'cron', id='scheduleET', hour = TE_time_H, minute = TE_time_M, second = 0)
+        scheduler.start()
            
     def displayET(self):
         print("The ETo is", self.ETo)
@@ -175,8 +181,6 @@ class MyGUI(QMainWindow):
         self.logs.append("Psychrometric constant: " + str(psy))
         self.logs.append("Evapotranspiration: " + str(self.ETo) + "mm/day")
         
-    
-
     def calculateHargreaves(self):
         #Open Weather Map API Call
         weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={14.524589860522429}&lon={121.1609810803121}&appid={api_key}&units=metric")
@@ -212,7 +216,6 @@ class MyGUI(QMainWindow):
         self.logs.append("Extraterrestrial Radiation " + str(et_radiation_bymonth[current_month_array]))
         self.logs.append("Estimated Evapotranspiration using Hargreaves Equation: " + str(self.ETo) + "mm/day")
 
-
     def calculateCropEvapotranspiration(self):
         if self.Kc_init.isChecked():
             self.Kc = 0.3
@@ -221,7 +224,6 @@ class MyGUI(QMainWindow):
         elif self.Kc_late.isChecked():
             self.Kc = 0.4
         self.lcdNumber_2.display(self.Kc)
-
 
     def calculateET (self):
         if self.pmRadioButton.isChecked():
