@@ -50,6 +50,7 @@ class MyGUI(QMainWindow):
         self.lcdNumber_2.display(0)
         self.schedButton.clicked.connect(self.setSchedule)
         self.writeSomething.clicked.connect(self.writeOne)
+        self.manualSprinkler.clicked.connect(self.manualWater)
         #test for scheduling
         def printing():
             print("HELLO")
@@ -57,6 +58,16 @@ class MyGUI(QMainWindow):
         scheduler.add_job(printing,"interval", seconds = 2)
         #scheduler.start()
    
+    def manualWater(self):
+        if self.manualSprinkler.isChecked():
+            print("Solenoid Valve ON...")
+            self.logs.append("Solenoid Valve ON...")
+            self.manualSprinkler.setStyleSheet("background-color : Green")
+        else:
+            print("Solenoid Valve OFF...")
+            self.logs.append("Solenoid Valve OFF...")
+            self.manualSprinkler.setStyleSheet("background-color : Gray")
+
 
     def writeOne(self):
         with open('readme.txt', 'w') as f:
