@@ -5,15 +5,18 @@ APScheduler Documentation: https://apscheduler.readthedocs.io/en/3.x/userguide.h
 QtScheduler Examples: https://python.hotexamples.com/examples/apscheduler.schedulers.qt/QtScheduler/-/python-qtscheduler-class-examples.html
 Pyeto Github: https://github.com/woodcrafty/PyETo
 Pyeto Documentation: https://pyeto.readthedocs.io/en/latest/
+GPIO Zero: https://gpiozero.readthedocs.io/en/stable/recipes.html
 Note: pip install pyeto not working
 """
 
+from logging import exception
 from multiprocessing import current_process
 from winreg import EnableReflectionKey
 import requests,pyeto,json,calendar
 import time
 import schedule
 import gpiozero
+#import RPi.GPIO
 from apscheduler.schedulers.qt import QtScheduler
 from datetime import date
 from datetime import datetime
@@ -40,13 +43,11 @@ class MyGUI(QMainWindow):
         super(MyGUI, self).__init__()
         uic.loadUi("main-window.ui", self)
         self.show()
-
         self.Kc_init.toggled.connect(self.calculateCropEvapotranspiration)
         self.Kc_mid.toggled.connect(self.calculateCropEvapotranspiration)
         self.Kc_late.toggled.connect(self.calculateCropEvapotranspiration)
         self.computeET.clicked.connect(self.calculateET)
-        text = "Initialized Logs..."
-        self.logs.setPlainText(text)
+        self.logs.setPlainText("Initialized Logs...")
         self.lcdNumber_2.display(0)
         self.schedButton.clicked.connect(self.setSchedule)
         self.writeSomething.clicked.connect(self.writeOne)
@@ -58,6 +59,45 @@ class MyGUI(QMainWindow):
         scheduler.add_job(printing,"interval", seconds = 2)
         #scheduler.start()
    
+    def inputChecker(self):
+        try:
+            if self.pmRadioButton.isChecked():
+                self.logs.append("Calculating using Penman-Monteith")
+            elif self.hargreavesRadioButton.isChecked():
+                self.logs.append("Calculating using Hargreaves Equation")
+            else:
+                raise Exception("No evapotranspiration method chosen")
+            
+            try:
+                if self.Kc_init.isChecked():
+                    self.logs.append("Initial Kc Chosen")
+                elif self.Kc_mid.isChecked():
+                    self.logs.append("Mid Kc Chosen")
+                elif self.Kc_late.isChecked():
+                    self.logs.append("Late Kc Chosen")
+                else:
+                    raise Exception("No Crop Coefficient Chosen")
+
+                try:
+                    if self.soilDepth.text() == '':
+                        raise Exception("No Soil Depth input")
+                except Exception as e:
+                    message = QMessageBox()
+                    message.setText("An Error Occured: " + str(e))
+                    message.exec_()
+
+            except Exception as e:
+                message = QMessageBox()
+                message.setText("An Error Occured: " + str(e))
+                message.exec_()
+
+                
+
+        except Exception as e:
+            message = QMessageBox()
+            message.setText("An Error Occured: " + str(e))
+            message.exec_()
+   
     def manualWater(self):
         if self.manualSprinkler.isChecked():
             print("Solenoid Valve ON...")
@@ -68,13 +108,13 @@ class MyGUI(QMainWindow):
             self.logs.append("Solenoid Valve OFF...")
             self.manualSprinkler.setStyleSheet("background-color : Gray")
 
-
     def writeOne(self):
         with open('readme.txt', 'w') as f:
             f.write('readme')
             f.write('Hello')
         
     def setSchedule(self):
+        self.inputChecker()
         TE_time_H = int(self.timeEdit.time().hour())
         TE_time_M = int(self.timeEdit.time().minute())
         print("Time Edit Hour: ", TE_time_H)
@@ -237,12 +277,12 @@ class MyGUI(QMainWindow):
         self.lcdNumber_2.display(self.Kc)
 
     def calculateET (self):
+       
         if self.pmRadioButton.isChecked():
             self.calculatePenmanMonteith()
         elif self.hargreavesRadioButton.isChecked():
             self.calculateHargreaves()
-
-
+  
         print("The ETo is", self.ETo)
         print("The Kc is", self.Kc)
         self.ETc = self.ETo * self.Kc
@@ -254,16 +294,7 @@ class MyGUI(QMainWindow):
         RAW = float(self.soilDepth.text()) * 0.69
         print("RAW: ", RAW, "mm" )
     
-    """
-     def tick(self):
-        starttime = time.time()
-        while True:
-            print("tick")
-            self.logs.append("tick")
-            time.sleep(60.0 - ((time.time() - starttime) % 60.0))
-    """
-    
-    
+
 
 def main():
    app = QApplication([])
