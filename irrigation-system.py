@@ -58,11 +58,31 @@ class MyGUI(QMainWindow):
         #scheduler.start()
 
     def loadData(self):
+        #Soil Depth text box
         loadDepth = str(pickle.load(open("depth.dat", "rb")))
         self.soilDepth.setText(loadDepth) 
+
+        #Time Edit Input
         loadTimeH = int(pickle.load(open("TimeH.dat", "rb")))
         loadTimeM = int(pickle.load(open("TimeM.dat", "rb")))
         self.timeEdit.setTime(QTime(loadTimeH,loadTimeM,0))
+
+        #Kc Radio Buttons
+        loadKc = str(pickle.load(open("Kc.dat", "rb")))
+        if loadKc == "init":
+            self.Kc_init.setChecked(True)
+        elif loadKc == "mid":
+            self.Kc_mid.setChecked(True)
+        elif loadKc == "late":
+            self.Kc_late.setChecked(True)
+
+        #Method Radio Buttons
+        method = str(pickle.load(open("Method.dat", "rb")))
+        if method == "Penman":
+            self.pmRadioButton.setChecked(True)
+        elif method == "Hargreaves":
+            self.hargreavesRadioButton.setChecked(True)
+        
         
     def initializeButtons(self):
         self.show()
@@ -89,8 +109,10 @@ class MyGUI(QMainWindow):
                     self.logs.append("Initial Kc Chosen")
                 elif self.Kc_mid.isChecked():
                     self.logs.append("Mid Kc Chosen")
+                    
                 elif self.Kc_late.isChecked():
                     self.logs.append("Late Kc Chosen")
+                    
                 else:
                     raise Exception("No Crop Coefficient Chosen")
                 try:
@@ -281,18 +303,23 @@ class MyGUI(QMainWindow):
     def calculateCropEvapotranspiration(self):
         if self.Kc_init.isChecked():
             self.Kc = 0.3
+            pickle.dump("init", open("Kc.dat", "wb"))
         elif self.Kc_mid.isChecked():
             self.Kc = 1.15
+            pickle.dump("mid", open("Kc.dat", "wb"))
         elif self.Kc_late.isChecked():
             self.Kc = 0.4
+            pickle.dump("late", open("Kc.dat", "wb"))
         self.lcdNumber_2.display(self.Kc)
 
     def calculateET (self):
        
         if self.pmRadioButton.isChecked():
             self.calculatePenmanMonteith()
+            pickle.dump("Penman", open("Method.dat", "wb"))
         elif self.hargreavesRadioButton.isChecked():
             self.calculateHargreaves()
+            pickle.dump("Hargreaves", open("Method.dat", "wb"))
   
         print("The ETo is", self.ETo)
         print("The Kc is", self.Kc)
