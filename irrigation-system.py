@@ -5,9 +5,10 @@ APScheduler Documentation: https://apscheduler.readthedocs.io/en/3.x/userguide.h
 QtScheduler Examples: https://python.hotexamples.com/examples/apscheduler.schedulers.qt/QtScheduler/-/python-qtscheduler-class-examples.html
 Pyeto Github: https://github.com/woodcrafty/PyETo
 Pyeto Documentation: https://pyeto.readthedocs.io/en/latest/
-GPIO Zero: https://gpiozero.readthedocs.io/en/stable/recipes.html
 Note: pip install pyeto not working
+GPIO Zero: https://gpiozero.readthedocs.io/en/stable/recipes.html
 """
+
 
 from logging import exception
 from multiprocessing import current_process
@@ -16,6 +17,7 @@ import requests,pyeto,json,calendar
 import time
 import schedule
 import gpiozero
+import pickle
 #import RPi.GPIO
 from apscheduler.schedulers.qt import QtScheduler
 from datetime import date
@@ -42,6 +44,9 @@ class MyGUI(QMainWindow):
     def __init__(self):
         super(MyGUI, self).__init__()
         uic.loadUi("main-window.ui", self)
+        #LOAD VARIABLES
+        self.loadData
+        #INITIALIZE ELEMENTS
         self.show()
         self.Kc_init.toggled.connect(self.calculateCropEvapotranspiration)
         self.Kc_mid.toggled.connect(self.calculateCropEvapotranspiration)
@@ -50,7 +55,6 @@ class MyGUI(QMainWindow):
         self.logs.setPlainText("Initialized Logs...")
         self.lcdNumber_2.display(0)
         self.schedButton.clicked.connect(self.setSchedule)
-        self.writeSomething.clicked.connect(self.writeOne)
         self.manualSprinkler.clicked.connect(self.manualWater)
         #test for scheduling
         def printing():
@@ -58,6 +62,11 @@ class MyGUI(QMainWindow):
         scheduler = QtScheduler()
         scheduler.add_job(printing,"interval", seconds = 2)
         #scheduler.start()
+
+    def loadData(self):
+        loadDepth = str(pickle.load(open("depth.dat", "rb")))
+        self.soilDepth.setText(loadDepth) 
+
    
     def inputChecker(self):
         try:
@@ -77,7 +86,6 @@ class MyGUI(QMainWindow):
                     self.logs.append("Late Kc Chosen")
                 else:
                     raise Exception("No Crop Coefficient Chosen")
-
                 try:
                     if self.soilDepth.text() == '':
                         raise Exception("No Soil Depth input")
@@ -108,10 +116,7 @@ class MyGUI(QMainWindow):
             self.logs.append("Solenoid Valve OFF...")
             self.manualSprinkler.setStyleSheet("background-color : Gray")
 
-    def writeOne(self):
-        with open('readme.txt', 'w') as f:
-            f.write('readme')
-            f.write('Hello')
+   
         
     def setSchedule(self):
         self.inputChecker()
@@ -291,9 +296,12 @@ class MyGUI(QMainWindow):
         print("ETC-R is: ",self.ETcR)
         self.CumETcR += self.ETcR
         print("Cumulative ETc-R is: ", self.CumETcR)
-        RAW = float(self.soilDepth.text()) * 0.69
+        depth = self.soilDepth.text()
+        RAW = float(depth) * 0.69
         print("RAW: ", RAW, "mm" )
-    
+        #save soil depth value
+        pickle.dump( depth , open("depth.dat","wb"))
+
 
 
 def main():
