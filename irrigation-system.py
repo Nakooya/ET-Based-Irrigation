@@ -18,12 +18,14 @@ import time
 import schedule
 import gpiozero
 import pickle
+
 #import RPi.GPIO
 from apscheduler.schedulers.qt import QtScheduler
 from datetime import date
 from datetime import datetime
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
+from PyQt5.QtCore import QTime
 #OpenWeather API Key
 api_key = 'a048f036a050aab5d159597cf0d22e41'
 
@@ -45,17 +47,9 @@ class MyGUI(QMainWindow):
         super(MyGUI, self).__init__()
         uic.loadUi("main-window.ui", self)
         #LOAD VARIABLES
-        self.loadData
+        self.loadData()
         #INITIALIZE ELEMENTS
-        self.show()
-        self.Kc_init.toggled.connect(self.calculateCropEvapotranspiration)
-        self.Kc_mid.toggled.connect(self.calculateCropEvapotranspiration)
-        self.Kc_late.toggled.connect(self.calculateCropEvapotranspiration)
-        self.computeET.clicked.connect(self.calculateET)
-        self.logs.setPlainText("Initialized Logs...")
-        self.lcdNumber_2.display(0)
-        self.schedButton.clicked.connect(self.setSchedule)
-        self.manualSprinkler.clicked.connect(self.manualWater)
+        self.initializeButtons()
         #test for scheduling
         def printing():
             print("HELLO")
@@ -66,7 +60,20 @@ class MyGUI(QMainWindow):
     def loadData(self):
         loadDepth = str(pickle.load(open("depth.dat", "rb")))
         self.soilDepth.setText(loadDepth) 
-
+        loadTimeH = int(pickle.load(open("TimeH.dat", "rb")))
+        loadTimeM = int(pickle.load(open("TimeM.dat", "rb")))
+        self.timeEdit.setTime(QTime(loadTimeH,loadTimeM,0))
+        
+    def initializeButtons(self):
+        self.show()
+        self.Kc_init.toggled.connect(self.calculateCropEvapotranspiration)
+        self.Kc_mid.toggled.connect(self.calculateCropEvapotranspiration)
+        self.Kc_late.toggled.connect(self.calculateCropEvapotranspiration)
+        self.computeET.clicked.connect(self.calculateET)
+        self.logs.setPlainText("Initialized Logs...")
+        self.lcdNumber_2.display(0)
+        self.schedButton.clicked.connect(self.setSchedule)
+        self.manualSprinkler.clicked.connect(self.manualWater)
    
     def inputChecker(self):
         try:
@@ -99,8 +106,6 @@ class MyGUI(QMainWindow):
                 message.setText("An Error Occured: " + str(e))
                 message.exec_()
 
-                
-
         except Exception as e:
             message = QMessageBox()
             message.setText("An Error Occured: " + str(e))
@@ -117,11 +122,12 @@ class MyGUI(QMainWindow):
             self.manualSprinkler.setStyleSheet("background-color : Gray")
 
    
-        
     def setSchedule(self):
         self.inputChecker()
         TE_time_H = int(self.timeEdit.time().hour())
         TE_time_M = int(self.timeEdit.time().minute())
+        pickle.dump(TE_time_H, open("TimeH.dat", "wb"))
+        pickle.dump(TE_time_M, open("TimeM.dat", "wb"))
         print("Time Edit Hour: ", TE_time_H)
         print("Time Edit Min: ", TE_time_M)
         #print("Current Hour: ",self.current_time_H)
