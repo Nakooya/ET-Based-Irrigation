@@ -71,10 +71,13 @@ class MyGUI(QMainWindow):
         loadKc = str(pickle.load(open("Kc.dat", "rb")))
         if loadKc == "init":
             self.Kc_init.setChecked(True)
+            self.Kc = 0.3
         elif loadKc == "mid":
             self.Kc_mid.setChecked(True)
+            self.Kc = 1.15
         elif loadKc == "late":
             self.Kc_late.setChecked(True)
+            self.Kc = 0.4
 
         #Method Radio Buttons
         method = str(pickle.load(open("Method.dat", "rb")))
@@ -331,9 +334,15 @@ class MyGUI(QMainWindow):
         print("Cumulative ETc-R is: ", self.CumETcR)
         depth = self.soilDepth.text()
         RAW = float(depth) * 0.69
-        print("RAW: ", RAW, "mm" )
+        print("Total Readily Available Water(RAW): ", RAW, "mm" )
         #save soil depth value
         pickle.dump( depth , open("depth.dat","wb"))
+
+        #current raw
+        datRAW = float(pickle.load(open("cRAW.dat", "rb")))
+        cRaw = datRAW - self.CumETcR
+        print("Current RAW: ", cRaw)
+        pickle.dump( cRaw, open("cRaw.dat", "wb"))
 
 
 
