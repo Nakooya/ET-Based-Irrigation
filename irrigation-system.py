@@ -1,5 +1,5 @@
 """
-                                                RESOURCES
+                                                DEPENDENCIES
 Github Remote Repository: https://github.com/Nakooya/ET-Based-Irrigation/tree/master
 APScheduler Documentation: https://apscheduler.readthedocs.io/en/3.x/userguide.html#basic-concepts
 QtScheduler Examples: https://python.hotexamples.com/examples/apscheduler.schedulers.qt/QtScheduler/-/python-qtscheduler-class-examples.html
@@ -50,12 +50,7 @@ class MyGUI(QMainWindow):
         self.loadData()
         #INITIALIZE ELEMENTS
         self.initializeButtons()
-        #test for scheduling
-        def printing():
-            print("HELLO")
-        scheduler = QtScheduler()
-        scheduler.add_job(printing,"interval", seconds = 2)
-        #scheduler.start()
+        
 
     def loadData(self):
         #Soil Depth text box
@@ -85,7 +80,6 @@ class MyGUI(QMainWindow):
             self.pmRadioButton.setChecked(True)
         elif method == "Hargreaves":
             self.hargreavesRadioButton.setChecked(True)
-        
         
     def initializeButtons(self):
         self.show()
@@ -145,8 +139,7 @@ class MyGUI(QMainWindow):
             print("Solenoid Valve OFF...")
             self.logs.append("Solenoid Valve OFF...")
             self.manualSprinkler.setStyleSheet("background-color : Gray")
-
-   
+  
     def setSchedule(self):
         self.inputChecker()
         TE_time_H = int(self.timeEdit.time().hour())
