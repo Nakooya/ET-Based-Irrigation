@@ -12,6 +12,7 @@ GPIO Zero: https://gpiozero.readthedocs.io/en/stable/recipes.html
 
 from logging import exception
 from multiprocessing import current_process
+from multiprocessing.heap import Arena
 from winreg import EnableReflectionKey
 import requests,pyeto,json,calendar
 import time
@@ -39,6 +40,15 @@ class MyGUI(QMainWindow):
     RAW = 0
     ETcR = 0
     CumETcR = 0
+    ETinInch = 0
+    runtime = 0
+    precipitationRate = 1.53
+    GPM = 0.035
+    Area = 2.197
+    gallonToday = 0
+    ETinInch = 0
+    dripperCount = 4
+    FinalPrecipRate = 0
     t = time.localtime()
     current_time_H = int(time.strftime("%H", t))
     current_time_M = int(time.strftime("%M", t))
@@ -336,7 +346,26 @@ class MyGUI(QMainWindow):
         cRaw = datRAW - self.CumETcR
         print("Current RAW: ", cRaw)
         pickle.dump( cRaw, open("cRaw.dat", "wb"))
+        ###########test
+        self.convertETmmtoin(self.ETc)
+        self.sprinklerHead()
+        self.calculateRuntimeGallon()
 
+
+    def convertETmmtoin(self, ETmm):
+        self.ETinInch = ETmm * 0.04
+        print("ETc in inches per day: ", self.ETinInch, "in/day")
+
+    def sprinklerHead(self):
+        self.FinalPrecipRate = self.precipitationRate/self.dripperCount
+        print(self.dripperCount, "Dripper Head Precipitation rate: ", self.FinalPrecipRate,"in/hour")
+        
+
+    def calculateRuntimeGallon(self):
+        self.runtime = (60*self.ETinInch)/(self.FinalPrecipRate)
+        print("Runtime in minutes: ", self.runtime, "min")
+        self.gallonToday = self.runtime * self.GPM
+        print("Gallons Today: ", self.gallonToday, "Gal")
 
 
 def main():
