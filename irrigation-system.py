@@ -6,7 +6,7 @@ QtScheduler Examples: https://python.hotexamples.com/examples/apscheduler.schedu
 Pyeto Github: https://github.com/woodcrafty/PyETo
 Pyeto Documentation: https://pyeto.readthedocs.io/en/latest/
 Note: pip install pyeto not working
-GPIO Zero: https://gpiozero.readthedocs.io/en/stable/recipes.html
+GPIO Zero: https://gpiozero.readthedocs.io/en/stable/recipes.html                               
 """
 
 
@@ -20,7 +20,17 @@ import schedule
 import gpiozero
 import pickle
 
-#import RPi.GPIO
+#Remove Comment when transfered to raspberry pi 
+'''
+import RPi.GPIO as GPIO
+from time import sleep
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(17, GPIO.OUT)
+'''
+
+
+
 from apscheduler.schedulers.qt import QtScheduler
 from datetime import date
 from datetime import datetime
@@ -42,6 +52,7 @@ class MyGUI(QMainWindow):
     CumETcR = 0
     ETinInch = 0
     runtime = 0
+    
     precipitationRate = 1.53
     GPM = 0.035
     Area = 2.197
@@ -145,10 +156,13 @@ class MyGUI(QMainWindow):
             print("Solenoid Valve ON...")
             self.logs.append("Solenoid Valve ON...")
             self.manualSprinkler.setStyleSheet("background-color : Green")
+            #GPIO.output(17, 1)
+            
         else:
             print("Solenoid Valve OFF...")
             self.logs.append("Solenoid Valve OFF...")
             self.manualSprinkler.setStyleSheet("background-color : Gray")
+            #GPIO.output(17, 0)
   
     def setSchedule(self):
         self.inputChecker()
