@@ -13,6 +13,7 @@ class MyGUI(QMainWindow):
         self.actionClose.triggered.connect(exit)
 
     def login(self):
+        self.convert(12)
         if self.lineEdit.text() == "nakooya" and self.lineEdit_2.text() == "password":
             self.textEdit.setEnabled(True)
             self.pushButton_2.setEnabled(True)
@@ -20,6 +21,10 @@ class MyGUI(QMainWindow):
             message = QMessageBox()
             message.setText("Invalid Login")
             message.exec_()
+
+    def convert(self, int):
+        print (int)
+
 
     def sayit(self, msg):
         message = QMessageBox()

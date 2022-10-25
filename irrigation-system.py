@@ -2,11 +2,12 @@
                                                 DEPENDENCIES
 Github Remote Repository: https://github.com/Nakooya/ET-Based-Irrigation/tree/master
 APScheduler Documentation: https://apscheduler.readthedocs.io/en/3.x/userguide.html#basic-concepts
+        command: pip3 install apscheduler
 QtScheduler Examples: https://python.hotexamples.com/examples/apscheduler.schedulers.qt/QtScheduler/-/python-qtscheduler-class-examples.html
 Pyeto Github: https://github.com/woodcrafty/PyETo
+        Note: pip install pyeto not working. Download the ZIP then copy the files to the project folder.    
 Pyeto Documentation: https://pyeto.readthedocs.io/en/latest/
-Note: pip install pyeto not working
-GPIO Zero: https://gpiozero.readthedocs.io/en/stable/recipes.html                               
+
 """
 
 
