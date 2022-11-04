@@ -95,6 +95,7 @@ class MyGUI(QMainWindow):
         elif loadKc == "late":
             self.Kc_late.setChecked(True)
             self.Kc = 0.4
+            
 
         #Method Radio Buttons
         method = str(pickle.load(open("Method.dat", "rb")))
@@ -128,7 +129,6 @@ class MyGUI(QMainWindow):
                     self.logs.append("Initial Kc Chosen")
                 elif self.Kc_mid.isChecked():
                     self.logs.append("Mid Kc Chosen")
-                    
                 elif self.Kc_late.isChecked():
                     self.logs.append("Late Kc Chosen")
                     
